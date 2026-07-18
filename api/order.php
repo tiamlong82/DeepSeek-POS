@@ -65,7 +65,7 @@ try {
         foreach ($stmt->fetchAll() as $d) $dishMap[$d['id']] = $d;
 
         // Load all spec options for these dishes
-        $specStmt = $db->query("
+        $specStmt = $db->prepare("
             SELECT dso.*, dsd.name_zh AS dim_name_zh, dsd.name_en AS dim_name_en 
             FROM dish_spec_options dso
             JOIN dish_spec_dimensions dsd ON dsd.id = dso.dimension_id
@@ -190,7 +190,7 @@ try {
         try {
             // Create order
             $stmt = $db->prepare("
-                INSERT INTO orders (store_id, order_number, table_no, member_id, customer_phone,
+                INSERT INTO orders (store_id, order_number, table_no, member_id, member_phone,
                     subtotal, discount_amount, tax_amount, rounding_adjust, net_amount,
                     payment_method, payment_status, order_status, estimated_wait_minutes, remark, is_takeaway)
                 VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDING', 'NEW', ?, ?, ?)
@@ -206,7 +206,7 @@ try {
 
             // Insert order items with spec/addon snapshots
             $stmtItem = $db->prepare("
-                INSERT INTO order_items (order_id, dish_id, dish_name_snapshot_zh, dish_name_snapshot_en,
+                INSERT INTO order_items (order_id, dish_id, dish_name_zh, dish_name_en,
                     quantity, unit_price, spec_snapshot, addon_snapshot, remark)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
