@@ -32,6 +32,7 @@ $page = basename($_SERVER['PHP_SELF'], '.php');
                 <a href="reports.php" class="<?= $page === 'reports' ? 'active' : '' ?>">📈 数据报表</a>
                 <a href="printers.php" class="<?= $page === 'printers' ? 'active' : '' ?>">🖨️ 打印设置</a>
                 <a href="stock.php" class="<?= $page === 'stock' ? 'active' : '' ?>">📦 库存管理</a>
+                <a href="specs.php" class="<?= $page === 'specs' ? 'active' : '' ?>">⚙️ 规格加料</a>
                 <a href="logout.php" class="text-danger">🚪 退出登录</a>
             </nav>
         </aside>
