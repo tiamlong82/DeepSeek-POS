@@ -25,6 +25,20 @@ try {
             $order['items'] = $stmt->fetchAll();
             jsonSuccess($order);
         }
+        // AA split bill: get all orders for a table
+        if ($action === 'table_orders') {
+            $tableNo = $_GET['table_no'] ?? '';
+            if (!$tableNo) jsonError('Missing table number', 400);
+            $stmt = $db->prepare("SELECT * FROM orders WHERE table_no = ? AND DATE(created_at) = CURDATE() AND order_status != 'CANCELLED' ORDER BY created_at");
+            $stmt->execute([$tableNo]);
+            $orders = $stmt->fetchAll();
+            foreach ($orders as &$o) {
+                $itemStmt = $db->prepare("SELECT * FROM order_items WHERE order_id = ?");
+                $itemStmt->execute([$o['id']]);
+                $o['items'] = $itemStmt->fetchAll();
+            }
+            jsonSuccess(['table_no' => $tableNo, 'orders' => $orders]);
+        }
         jsonError('Unknown action', 400);
     }
 
