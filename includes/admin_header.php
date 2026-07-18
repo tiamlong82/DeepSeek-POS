@@ -24,6 +24,7 @@ $page = basename($_SERVER['PHP_SELF'], '.php');
             <div class="sidebar-user"><?= h($currentUser) ?> (<?= h($currentRole) ?>)</div>
             <nav class="sidebar-nav">
                 <a href="index.php" class="<?= $page === 'index' ? 'active' : '' ?>">📊 控制台</a>
+                <a href="live_dashboard.php" class="<?= $page === 'live_dashboard' ? 'active' : '' ?>">📺 营业大屏</a>
                 <a href="orders.php" class="<?= $page === 'orders' ? 'active' : '' ?>">📋 订单管理</a>
                 <a href="dishes.php" class="<?= $page === 'dishes' ? 'active' : '' ?>">🍽️ 菜品管理</a>
                 <a href="categories.php" class="<?= $page === 'categories' ? 'active' : '' ?>">📂 分类管理</a>
