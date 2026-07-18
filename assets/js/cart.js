@@ -293,3 +293,7 @@ async function showOrderStatus(orderNumber) {
         alert(getText('fetch_error', '查询失败', 'Query failed', 'Gagal'));
     }
 }
+
+function closeOrderStatus() {
+    document.getElementById('orderStatusModal').style.display = 'none';
+}

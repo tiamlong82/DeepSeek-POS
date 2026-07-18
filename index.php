@@ -129,9 +129,12 @@ $currentLang = getLang();
         <div class="modal-content">
             <div class="modal-header">
                 <h3><?= t('订单状态', 'Order Status', 'Status Pesanan', $currentLang) ?></h3>
-                <button class="btn-close" onclick="document.getElementById('orderStatusModal').style.display='none'">&times;</button>
+                <button class="btn-close" onclick="closeOrderStatus()">&times;</button>
             </div>
             <div class="modal-body" id="orderStatusBody"></div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeOrderStatus()"><?= t('返回', 'Back', 'Kembali', $currentLang) ?></button>
+            </div>
         </div>
     </div>
 

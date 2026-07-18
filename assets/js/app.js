@@ -60,7 +60,7 @@ function renderDishes(dishes) {
         if (!dish.is_available) return;
         const name = t(dish.name_zh, dish.name_en, dish.name_ms);
         const desc = t(dish.description_zh || '', dish.description_en || '', dish.description_ms || '');
-        const imgSrc = dish.image_url ? BASE_URL + '/' + dish.image_url : 'https://via.placeholder.com/200x150?text=ABC';
+        const imgSrc = dish.image_url ? BASE_URL + '/' + dish.image_url : '';
         const stockLeft = dish.stock_daily - dish.stock_used_today;
         const soldOut = stockLeft <= 0;
         const hasSpecs = dish.has_specs || dish.has_addons;
@@ -68,7 +68,7 @@ function renderDishes(dishes) {
         html += `
             <div class="dish-card ${soldOut ? 'sold-out' : ''}" onclick="${soldOut ? '' : "showDishDetail(" + dish.id + ")"}">
                 <div class="dish-img">
-                    <img src="${imgSrc}" alt="${name}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x150?text=ABC'">
+                    ${imgSrc ? '<img src="' + imgSrc + '" alt="' + name + '" loading="lazy">' : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;color:#ccc;background:#f5f5f5;">🍽️</div>'}
                     ${dish.is_popular ? '<span class="badge-hot">' + getText('hot', '热门', 'Hot', 'Panas') + '</span>' : ''}
                     ${soldOut ? '<span class="badge-soldout">' + getText('sold_out', '售罄', 'Sold Out', 'Habis') + '</span>' : ''}
                 </div>
@@ -102,7 +102,7 @@ function showDishDetail(dishId) {
     if (!dish) return;
     const name = t(dish.name_zh, dish.name_en, dish.name_ms);
     const desc = t(dish.description_zh || '', dish.description_en || '', dish.description_ms || '');
-    const imgSrc = dish.image_url ? BASE_URL + '/' + dish.image_url : 'https://via.placeholder.com/200x150?text=ABC';
+    const imgSrc = dish.image_url ? BASE_URL + '/' + dish.image_url : '';
     const basePrice = parseFloat(dish.price);
 
     fetch(`${BASE_URL}/api/menu.php?action=options&dish_id=${dishId}`)
@@ -111,8 +111,8 @@ function showDishDetail(dishId) {
             const specs = res.success ? (res.data.spec_groups || []) : [];
             const addons = res.success ? (res.data.addons || []) : [];
 
-            let bodyHtml = `<img src="${imgSrc}" class="detail-img" onerror="this.style.display='none'">`;
-            if (desc) bodyHtml += `<p class="detail-desc">${desc}</p>`;
+            let bodyHtml = imgSrc ? '<img src="' + imgSrc + '" class="detail-img">' : '';
+            if (desc) bodyHtml += '<p class="detail-desc">' + desc + '</p>';
             bodyHtml += `<div class="detail-price" id="detailPrice">RM ${basePrice.toFixed(2)}</div>`;
 
             // Spec groups
