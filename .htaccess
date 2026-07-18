@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# API路由: 将 api/xxx 映射到 api/xxx.php，但避免已存在.php的循环重写
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/(.*)$ api/$1.php [L,QSA]
+
+<FilesMatch "\.(sql|md)$">
+  Deny from all
+</FilesMatch>
+
+Options -Indexes
