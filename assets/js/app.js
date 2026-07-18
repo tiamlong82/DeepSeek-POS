@@ -7,6 +7,8 @@ let currentCategory = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
     Cart.load();
+    // Show loading skeletons
+    document.getElementById('menuGrid').innerHTML = Array(6).fill('<div class="loading-dish"></div>').join('');
     await loadMenu();
 });
 
