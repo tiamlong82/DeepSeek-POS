@@ -160,8 +160,9 @@ function showDishDetail(dishId) {
                         <button class="btn-close" onclick="this.closest('.modal').remove()">&times;</button>
                     </div>
                     <div class="modal-body">${bodyHtml}</div>
-                    <div class="modal-footer">
-                        <button class="btn-primary" onclick="addFromDetail(${dish.id}, ${basePrice})">${getText('add_to_cart', '加入购物车', 'Add to Cart', 'Tambah ke Troli')}</button>
+                    <div class="modal-footer" style="gap:8px;">
+                        <button class="btn-secondary" onclick="this.closest('.modal').remove()">返回</button>
+                        <button class="btn-primary" onclick="addFromDetail(${dish.id}, ${basePrice})" style="flex:1;">${getText('add_to_cart', '加入购物车', 'Add to Cart', 'Tambah ke Troli')}</button>
                     </div>
                 </div>
             `;
@@ -228,3 +229,4 @@ function addFromDetail(dishId, basePrice) {
     });
     modal.remove();
 }
+
