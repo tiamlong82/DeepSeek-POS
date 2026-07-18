@@ -119,7 +119,34 @@ $orders = $stmt->fetchAll();
                         <td><?= h($item['dish_name_zh']) ?></td>
                         <td><?= $item['quantity'] ?></td>
                         <td>RM <?= number_format($item['unit_price'], 2) ?></td>
-                        <td><?= h($item['options_text'] ?: '-') ?></td>
+                        <td><?= h($item['options_text'] ?: '-') ?>
+                        <?php 
+                        $specSnap = $item['spec_snapshot'] ?? '';
+                        if ($specSnap && $specSnap !== '[]' && $specSnap !== 'null') {
+                            $specs = json_decode($specSnap, true);
+                            if (is_array($specs)) {
+                                foreach ($specs as $s) {
+                                    $dim = $s['dimension'] ?? '';
+                                    $val = $s['value_zh'] ?? $s['value_en'] ?? '';
+                                    $p = floatval($s['price'] ?? 0);
+                                    echo '<div style="font-size:11px;color:#64748b;">' . h($dim) . ': ' . h($val);
+                                    if ($p > 0) echo ' <span style="color:#10b981;">+RM' . number_format($p,2) . '</span>';
+                                    echo '</div>';
+                                }
+                            }
+                        }
+                        $addonSnap = $item['addon_snapshot'] ?? '';
+                        if ($addonSnap && $addonSnap !== '[]' && $addonSnap !== 'null') {
+                            $addons = json_decode($addonSnap, true);
+                            if (is_array($addons)) {
+                                foreach ($addons as $a) {
+                                    $an = $a['name_zh'] ?? $a['name_en'] ?? '';
+                                    $ap = floatval($a['price'] ?? 0);
+                                    echo '<div style="font-size:11px;color:#8b5cf6;">➕ ' . h($an) . ' <span style="color:#10b981;">+RM' . number_format($ap,2) . '</span></div>';
+                                }
+                            }
+                        }
+                        ?></td>
                         <td><?= h($item['remark'] ?: '-') ?></td>
                         <td>RM <?= number_format($item['subtotal'], 2) ?></td>
                     </tr>
